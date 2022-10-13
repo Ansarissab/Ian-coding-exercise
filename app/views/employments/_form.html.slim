@@ -1,0 +1,26 @@
+= form_with(model: @employment) do |form|
+  - if @employment.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(@employment.errors.count, "error")} prohibited this employment from being saved:"
+      ul
+        - @employment.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :employer, style: "display: block"
+    = form.text_field :employer
+
+  div
+    = form.label :start_date, style: "display: block"
+    = form.date_field :start_date
+
+  div
+    = form.label :end_date, style: "display: block"
+    = form.date_field :end_date
+
+  div
+    = form.label :user_id, style: "display: block"
+    = form.text_field :user_id
+
+  div
+    = form.submit

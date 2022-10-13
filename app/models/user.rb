@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :employments
+
   before_save :normalize_phone
 
   validates :firstname, presence: true, length: { minimum: 3,
