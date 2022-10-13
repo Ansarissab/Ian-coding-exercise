@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :ensure_frame_response, only: [:new, :edit]
 
   # GET /users or /users.json
   def index
@@ -25,6 +26,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend('users', partial: 'users/user', locals: {user: @user}) }
         format.html { redirect_to user_url(@user), notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
@@ -38,6 +40,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@user, partial: "users/user", locals: {user: @user}) }
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -58,6 +61,11 @@ class UsersController < ApplicationController
   end
 
   private
+    def ensure_frame_response
+      return unless Rails.env.development?
+      redirect_to root_path unless turbo_frame_request?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
-  resources :employments
   resources :users
+  resources :employments
+  root to: 'dashboard#index'
 end

@@ -3,7 +3,7 @@ p style="color: green" = notice
 == render @user
 
 div
-  => link_to "Edit this user", edit_user_path(@user)
+  => link_to "Edit this user", edit_user_path(@user), data: { turbo_frame: 'modal' }
   '|
   =< link_to "Back to users", users_path
 
