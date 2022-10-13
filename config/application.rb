@@ -20,6 +20,7 @@ module CodingExercise
     # config.eager_load_paths << Rails.root.join("extras")
     config.generators do |g|
       g.template_engine :slim
+      g.test_framework :rspec
     end
   end
 end
